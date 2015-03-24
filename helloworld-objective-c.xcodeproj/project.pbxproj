@@ -12,6 +12,7 @@
 		F131C14F1ABF981A0091F292 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F131C14E1ABF981A0091F292 /* ViewController.m */; };
 		F131C1541ABF981A0091F292 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F131C1531ABF981A0091F292 /* Images.xcassets */; };
 		F131C1631ABF981A0091F292 /* helloworld_objective_cTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F131C1621ABF981A0091F292 /* helloworld_objective_cTests.m */; };
+		F14A1CB81AC0FF2800E5EC08 /* HWTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F14A1CB71AC0FF2800E5EC08 /* HWTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,8 @@
 		F131C15C1ABF981A0091F292 /* helloworld-objective-cTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "helloworld-objective-cTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F131C1611ABF981A0091F292 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F131C1621ABF981A0091F292 /* helloworld_objective_cTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = helloworld_objective_cTests.m; sourceTree = "<group>"; };
+		F14A1CB61AC0FF2800E5EC08 /* HWTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWTableViewController.h; sourceTree = "<group>"; };
+		F14A1CB71AC0FF2800E5EC08 /* HWTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +80,7 @@
 		F131C1451ABF981A0091F292 /* helloworld-objective-c */ = {
 			isa = PBXGroup;
 			children = (
+				F14A1CB51AC0FEE100E5EC08 /* 2.UITableViewExample */,
 				F131C14A1ABF981A0091F292 /* AppDelegate.h */,
 				F131C14B1ABF981A0091F292 /* AppDelegate.m */,
 				F131C14D1ABF981A0091F292 /* ViewController.h */,
@@ -111,6 +115,15 @@
 				F131C1611ABF981A0091F292 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F14A1CB51AC0FEE100E5EC08 /* 2.UITableViewExample */ = {
+			isa = PBXGroup;
+			children = (
+				F14A1CB61AC0FF2800E5EC08 /* HWTableViewController.h */,
+				F14A1CB71AC0FF2800E5EC08 /* HWTableViewController.m */,
+			);
+			name = 2.UITableViewExample;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -211,6 +224,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F14A1CB81AC0FF2800E5EC08 /* HWTableViewController.m in Sources */,
 				F131C14F1ABF981A0091F292 /* ViewController.m in Sources */,
 				F131C14C1ABF981A0091F292 /* AppDelegate.m in Sources */,
 				F131C1491ABF981A0091F292 /* main.m in Sources */,
@@ -387,6 +401,7 @@
 				F131C1681ABF981A0091F292 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F131C1691ABF981A0091F292 /* Build configuration list for PBXNativeTarget "helloworld-objective-cTests" */ = {
 			isa = XCConfigurationList;
@@ -395,6 +410,7 @@
 				F131C16B1ABF981A0091F292 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

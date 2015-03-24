@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+#import "HWTableViewController.h"
+
 
 @interface ViewController ()
 
@@ -47,6 +49,10 @@
 -(void)helloAction:(UIButton*)sender
 {
     NSLog(@"Hello");
+    
+    HWTableViewController *vc = [[HWTableViewController alloc] init];
+    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nvc animated:YES completion:nil];
 
 }
 
