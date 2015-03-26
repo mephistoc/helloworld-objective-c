@@ -68,10 +68,18 @@
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"DataCell"];
     }
-    
-    
+
+    cell.backgroundColor = (indexPath.row%2)?[UIColor lightGrayColor]:[UIColor grayColor];
+
+    if(indexPath.row%2)
+    {
     cell.textLabel.text = @"Hello World";
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
+    }else
+    {
+        cell.textLabel.text = @"Alien is Here";
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
+    }
 
     
     return cell;
@@ -80,7 +88,7 @@
 // 上面三個是資料基本的DataSource
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return [NSString stringWithFormat:@"Section %d", section];
+    return [NSString stringWithFormat:@"Section %ld", (long)section];
 }
 
 
@@ -88,7 +96,7 @@
 #pragma mark - UITableView Delegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Click Section = %d Row = %d", indexPath.section, indexPath.row);
+    NSLog(@"Click Section = %ld Row = %ld", (long)indexPath.section, (long)indexPath.row);
 }
 
 
