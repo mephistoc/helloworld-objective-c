@@ -32,7 +32,7 @@
     // 3. 將reference設給weak property
     
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(10, 30, 100, 40)];
-    [button setTitle:@"Start" forState:UIControlStateNormal];
+    [button setTitle:@"Click Me" forState:UIControlStateNormal];
     [self.view addSubview:button];
     self.startBtn = button;
     
