@@ -16,6 +16,7 @@
 
 @end
 static NSArray *waterArray;
+static NSMutableData *responseData;
 @implementation HWTableViewController
 
 - (void)viewDidLoad {
@@ -29,6 +30,14 @@ static NSArray *waterArray;
     tableView.delegate = self;
     
     self.tableView = tableView; // 把local variable設給這個物件的property，是方便存取。
+    
+    // Get remote JSON data.
+    responseData = [[NSMutableData alloc]init];
+    NSURL *url = [[NSURL alloc] initWithString:@"http://128.199.223.114:10080/"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setValue:@"application/json" forHTTPHeaderField:@"accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    (void)[NSURLConnection connectionWithRequest:request delegate:self];
     
     // Convert JSON data into a NSDictionary object.
     NSString *waterRaw = [self getFakeWaterData];
@@ -44,8 +53,6 @@ static NSArray *waterArray;
     [super viewDidLayoutSubviews];
     
     self.tableView.frame = self.view.bounds; // 可以查一下frame 與 bounds的差別
-    
-
 }
 
 
@@ -105,6 +112,27 @@ static NSArray *waterArray;
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Click Section = %ld Row = %ld", (long)indexPath.section, (long)indexPath.row);
+}
+
+#pragma mark - NSURLConnection Delegates
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error  {
+    
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response   {
+    [responseData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data  {
+    [responseData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection    {
+    
+    NSString *responseString = [[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",responseString);
+    
 }
 
 -(NSString*)getFakeWaterData
@@ -172,6 +200,5 @@ static NSArray *waterArray;
     "}";
     return rtnString;
 }
-
 
 @end
