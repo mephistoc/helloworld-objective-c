@@ -9,6 +9,8 @@
 #import "HWTableViewController.h"
 
 @interface HWTableViewController ()<UITableViewDataSource, UITableViewDelegate>
+//Method which provide fake data for test.
+-(NSString*)getFakeWaterData;
 
 @property(nonatomic, weak)UITableView   *tableView;
 
@@ -62,6 +64,9 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSString *waterRaw = [self getFakeWaterData];
+    NSData *waterData = [waterRaw dataUsingEncoding:NSUTF8StringEncoding];
+    id json = [NSJSONSerialization JSONObjectWithData:waterData options:0 error:nil];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DataCell"];
     if(cell == nil)
@@ -73,8 +78,9 @@
 
     if(indexPath.row%2)
     {
-    cell.textLabel.text = @"Hello World";
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
+        cell.textLabel.text = @"Hello World";
+        cell.textLabel.text = [json objectForKey:@"data"];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
     }else
     {
         cell.textLabel.text = @"Alien is Here";
@@ -99,7 +105,71 @@
     NSLog(@"Click Section = %ld Row = %ld", (long)indexPath.section, (long)indexPath.row);
 }
 
-
+-(NSString*)getFakeWaterData
+{
+    NSString *rtnString = @"{"
+    "    \"data\": [{"
+    //NSString *rtnString = @"{"
+    "    \"reservoirName\": \"石門水庫\","
+    "    \"baseAvailable\": \"20,123.60\","
+    "    \"daliyTime\": \"起:2015-03-29(0時)迄:2015-03-30(0時)\","
+    "    \"daliyRainfall\": \"0.00\","
+    "    \"daliyInflow\": \"175.13\","
+    "    \"daliyOverflow\": \"68.77\","
+    "    \"daliyDetector\": \"0.29\","
+    "    \"concentration\": \"--\","
+    "    \"immediateTime\": \"2015-03-29(23時)\","
+    "    \"immediateLevel\": \"219.95\","
+    "    \"immediateStorage\": \"4,974.60\","
+    "    \"immediatePercentage\": \"24.72%\","
+    "    \"lastedUpdateTime\": \"2015-03-30 02:00:01\""
+    "  }, {"
+    "    \"reservoirName\": \"新山水庫\","
+    "    \"baseAvailable\": \"1,002.00\","
+    "    \"daliyTime\": \"起:2015-03-29(0時)迄:2015-03-30(0時)\","
+    "    \"daliyRainfall\": \"0.00\","
+    "    \"daliyInflow\": \"0.00\","
+    "    \"daliyOverflow\": \"0.92\","
+    "    \"daliyDetector\": \"--\","
+    "    \"concentration\": \"--\","
+    "    \"immediateTime\": \"2015-03-29(8時)\","
+    "    \"immediateLevel\": \"82.94\","
+    "    \"immediateStorage\": \"825.24\","
+    "    \"immediatePercentage\": \"82.36%\","
+    "    \"lastedUpdateTime\": \"2015-03-30 02:00:01\""
+    "  }, {"
+    "    \"reservoirName\": \"翡翠水庫\","
+    "    \"baseAvailable\": \"33,550.50\","
+    "    \"daliyTime\": \"起:2015-03-29(0時)迄:2015-03-30(0時)\","
+    "    \"daliyRainfall\": \"0.00\","
+    "    \"daliyInflow\": \"201.60\","
+    "    \"daliyOverflow\": \"0.00\","
+    "    \"daliyDetector\": \"0.29\","
+    "    \"concentration\": \"--\","
+    "    \"immediateTime\": \"2015-03-29(23時)\","
+    "    \"immediateLevel\": \"165.92\","
+    "    \"immediateStorage\": \"29,833.24\","
+    "    \"immediatePercentage\": \"88.92%\","
+    "    \"lastedUpdateTime\": \"2015-03-30 02:00:01\""
+    "  }, {"
+    "    \"reservoirName\": \"寶山水庫\","
+    "    \"baseAvailable\": \"538.00\","
+    "    \"daliyTime\": \"起:2015-03-29(0時)迄:2015-03-30(0時)\","
+    "    \"daliyRainfall\": \"0.00\","
+    "    \"daliyInflow\": \"8.64\","
+    "    \"daliyOverflow\": \"4.96\","
+    "    \"daliyDetector\": \"--\","
+    "    \"concentration\": \"--\","
+    "    \"immediateTime\": \"2015-03-29(7時)\","
+    "    \"immediateLevel\": \"135.53\","
+    "    \"immediateStorage\": \"220.70\","
+    "    \"immediatePercentage\": \"41.02%\","
+    "    \"lastedUpdateTime\": \"2015-03-30 02:00:01\""
+    //“  }";
+    " }]"
+    "}";
+    return rtnString;
+}
 
 
 @end
