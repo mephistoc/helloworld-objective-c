@@ -77,7 +77,9 @@ static NSArray *waterArray;
     cell.backgroundColor = (indexPath.row%2)?[UIColor lightGrayColor]:[UIColor grayColor];
     // Get string in the waters dictionary object.
     NSDictionary *dam = [waterArray objectAtIndex:indexPath.row];
-    cell.textLabel.text = [dam valueForKey:@"reservoirName"];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ 目前蓄水量：%@",
+                           [dam valueForKey:@"reservoirName"],
+                           [dam valueForKey:@"immediatePercentage"]] ;
 
     if(indexPath.row%2)
     {
