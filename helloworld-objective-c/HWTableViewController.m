@@ -15,7 +15,7 @@
 @property(nonatomic, weak)UITableView   *tableView;
 
 @end
-
+static NSArray *waterArray;
 @implementation HWTableViewController
 
 - (void)viewDidLoad {
@@ -30,7 +30,11 @@
     
     self.tableView = tableView; // 把local variable設給這個物件的property，是方便存取。
     
-    
+    // Convert JSON data into a NSDictionary object.
+    NSString *waterRaw = [self getFakeWaterData];
+    NSData *waterData = [waterRaw dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *waters = [NSJSONSerialization JSONObjectWithData:waterData options:0 error:nil];
+    waterArray = [waters valueForKey:@"data"];
 }
 
 
@@ -64,10 +68,6 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *waterRaw = [self getFakeWaterData];
-    NSData *waterData = [waterRaw dataUsingEncoding:NSUTF8StringEncoding];
-    id json = [NSJSONSerialization JSONObjectWithData:waterData options:0 error:nil];
-    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DataCell"];
     if(cell == nil)
     {
@@ -75,15 +75,15 @@
     }
 
     cell.backgroundColor = (indexPath.row%2)?[UIColor lightGrayColor]:[UIColor grayColor];
+    // Get string in the waters dictionary object.
+    NSDictionary *dam = [waterArray objectAtIndex:indexPath.row];
+    cell.textLabel.text = [dam valueForKey:@"reservoirName"];
 
     if(indexPath.row%2)
     {
-        cell.textLabel.text = @"Hello World";
-        cell.textLabel.text = [json objectForKey:@"data"];
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
     }else
     {
-        cell.textLabel.text = @"Alien is Here";
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
     }
 
