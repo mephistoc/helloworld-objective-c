@@ -24,6 +24,14 @@ static NSInteger damCount;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    [self.view addSubview:tableView];
+    
+    tableView.dataSource = self; // 需要在上面宣告這個class有實作 UITableViewDataSource
+    tableView.delegate = self;
+    
+    self.tableView = tableView; // 把local variable設給這個物件的property，是方便存取。
+
     // Get remote JSON data.
     responseData = [[NSMutableData alloc]init];
     NSURL *url = [[NSURL alloc] initWithString:@"http://128.199.223.114:10080/"];
@@ -32,20 +40,11 @@ static NSInteger damCount;
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     (void)[NSURLConnection connectionWithRequest:request delegate:self];
     
-    damCount = [waterArray count];
-    //// Convert JSON data into a NSDictionary object.
-    // NSString *waterRaw = [self getFakeWaterData];
-    // NSData *waterData = [waterRaw dataUsingEncoding:NSUTF8StringEncoding];
-    // NSDictionary *waters = [NSJSONSerialization JSONObjectWithData:waterData options:0 error:nil];
-    // waterArray = [waters valueForKey:@"data"];
-
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-    [self.view addSubview:tableView];
-    
-    tableView.dataSource = self; // 需要在上面宣告這個class有實作 UITableViewDataSource
-    tableView.delegate = self;
-    
-    self.tableView = tableView; // 把local variable設給這個物件的property，是方便存取。
+//    // Convert JSON data into a NSDictionary object.
+//     NSString *waterRaw = [self getFakeWaterData];
+//     NSData *waterData = [waterRaw dataUsingEncoding:NSUTF8StringEncoding];
+//     NSDictionary *waters = [NSJSONSerialization JSONObjectWithData:waterData options:0 error:nil];
+//     waterArray = [waters valueForKey:@"data"];
 }
 
 
@@ -69,8 +68,6 @@ static NSInteger damCount;
     // 每個Section有幾個Row
     
     if(section == 0) return damCount;
-    // if(section == 1) return 4;
-    // if(section == 2) return 5;
     
     return 0;
 }
@@ -131,12 +128,13 @@ static NSInteger damCount;
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection    {
-    
     NSString *responseString = [[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding];
     NSData *waterData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *waters = [NSJSONSerialization JSONObjectWithData:waterData options:0 error:nil];
     waterArray = [waters valueForKey:@"data"];
     NSLog(@"%@",responseString);
+    damCount = [waterArray count];
+    [[self tableView] reloadData];
 }
 
 -(NSString*)getFakeWaterData
