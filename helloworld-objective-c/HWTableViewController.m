@@ -17,19 +17,12 @@
 @end
 static NSArray *waterArray;
 static NSMutableData *responseData;
+static NSInteger damCount;
 @implementation HWTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-    [self.view addSubview:tableView];
-    
-    tableView.dataSource = self; // 需要在上面宣告這個class有實作 UITableViewDataSource
-    tableView.delegate = self;
-    
-    self.tableView = tableView; // 把local variable設給這個物件的property，是方便存取。
     
     // Get remote JSON data.
     responseData = [[NSMutableData alloc]init];
@@ -39,11 +32,20 @@ static NSMutableData *responseData;
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     (void)[NSURLConnection connectionWithRequest:request delegate:self];
     
-    // Convert JSON data into a NSDictionary object.
-    NSString *waterRaw = [self getFakeWaterData];
-    NSData *waterData = [waterRaw dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *waters = [NSJSONSerialization JSONObjectWithData:waterData options:0 error:nil];
-    waterArray = [waters valueForKey:@"data"];
+    damCount = [waterArray count];
+    //// Convert JSON data into a NSDictionary object.
+    // NSString *waterRaw = [self getFakeWaterData];
+    // NSData *waterData = [waterRaw dataUsingEncoding:NSUTF8StringEncoding];
+    // NSDictionary *waters = [NSJSONSerialization JSONObjectWithData:waterData options:0 error:nil];
+    // waterArray = [waters valueForKey:@"data"];
+
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    [self.view addSubview:tableView];
+    
+    tableView.dataSource = self; // 需要在上面宣告這個class有實作 UITableViewDataSource
+    tableView.delegate = self;
+    
+    self.tableView = tableView; // 把local variable設給這個物件的property，是方便存取。
 }
 
 
@@ -59,18 +61,18 @@ static NSMutableData *responseData;
 #pragma mark - UITableViewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4; // 有幾個Section
+    return 1; // 有幾個Section
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // 每個Section有幾個Row
     
-    if(section == 0) return 3;
-    if(section == 1) return 4;
-    if(section == 2) return 5;
+    if(section == 0) return damCount;
+    // if(section == 1) return 4;
+    // if(section == 2) return 5;
     
-    return 2;
+    return 0;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -82,7 +84,7 @@ static NSMutableData *responseData;
     }
 
     cell.backgroundColor = (indexPath.row%2)?[UIColor lightGrayColor]:[UIColor grayColor];
-    // Get string in the waters dictionary object.
+    // Get dam information from static variable "waterArray" in the waters dictionary object.
     NSDictionary *dam = [waterArray objectAtIndex:indexPath.row];
     cell.textLabel.text = [NSString stringWithFormat:@"%@ 目前蓄水量：%@",
                            [dam valueForKey:@"reservoirName"],
@@ -131,8 +133,10 @@ static NSMutableData *responseData;
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection    {
     
     NSString *responseString = [[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding];
+    NSData *waterData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *waters = [NSJSONSerialization JSONObjectWithData:waterData options:0 error:nil];
+    waterArray = [waters valueForKey:@"data"];
     NSLog(@"%@",responseString);
-    
 }
 
 -(NSString*)getFakeWaterData
