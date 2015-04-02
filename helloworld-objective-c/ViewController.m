@@ -31,19 +31,15 @@
     // 2. 利用addSubView，把這個view加到其他View中
     // 3. 將reference設給weak property
     
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(10, 30, 100, 40)];
-    [button setTitle:@"Click Me" forState:UIControlStateNormal];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(10, 30, 150, 40)];
+    [button setTitle:@"Get Dam Status" forState:UIControlStateNormal];
     [self.view addSubview:button];
     self.startBtn = button;
     
     // Target-Action : 類似event的東西，在這裡就是處理點擊按鈕的部分
     
     [self.startBtn addTarget:self action:@selector(helloAction:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-
 }
-
 
 
 -(void)helloAction:(UIButton*)sender

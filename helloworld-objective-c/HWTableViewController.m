@@ -39,12 +39,6 @@ static NSInteger damCount;
     [request setValue:@"application/json" forHTTPHeaderField:@"accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     (void)[NSURLConnection connectionWithRequest:request delegate:self];
-    
-//    // Convert JSON data into a NSDictionary object.
-//     NSString *waterRaw = [self getFakeWaterData];
-//     NSData *waterData = [waterRaw dataUsingEncoding:NSUTF8StringEncoding];
-//     NSDictionary *waters = [NSJSONSerialization JSONObjectWithData:waterData options:0 error:nil];
-//     waterArray = [waters valueForKey:@"data"];
 }
 
 
@@ -102,7 +96,8 @@ static NSInteger damCount;
 // 上面三個是資料基本的DataSource
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return [NSString stringWithFormat:@"Section %ld", (long)section];
+//    return [NSString stringWithFormat:@"Section %ld", (long)section];
+    return @"目前水庫蓄水量";
 }
 
 
@@ -121,19 +116,24 @@ static NSInteger damCount;
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response   {
     [responseData setLength:0];
+    NSLog(@"Response data got.");
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data  {
     [responseData appendData:data];
+    NSLog(@"Receive data got");
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection    {
+    // Get dam data from remote in JSON format.
     NSString *responseString = [[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding];
     NSData *waterData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *waters = [NSJSONSerialization JSONObjectWithData:waterData options:0 error:nil];
     waterArray = [waters valueForKey:@"data"];
     NSLog(@"%@",responseString);
+    
     damCount = [waterArray count];
+    
     [[self tableView] reloadData];
 }
 
