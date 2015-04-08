@@ -34,7 +34,7 @@ static NSInteger damCount;
 
     // Get remote JSON data.
     responseData = [[NSMutableData alloc]init];
-    NSURL *url = [[NSURL alloc] initWithString:@"http://128.199.223.114:10080/"];
+    NSURL *url = [[NSURL alloc] initWithString:@"http://128.199.223.114:10080/today"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setValue:@"application/json" forHTTPHeaderField:@"accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
