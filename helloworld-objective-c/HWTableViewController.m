@@ -7,12 +7,14 @@
 //
 
 #import "HWTableViewController.h"
+#import "MBProgressHUD.h"
 
 @interface HWTableViewController ()<UITableViewDataSource, UITableViewDelegate>
 //Method which provide fake data for test.
 -(NSString*)getFakeWaterData;
 
 @property(nonatomic, weak)UITableView   *tableView;
+@property(nonatomic, weak)UIRefreshControl *refreshControl; // Implement pull down refresh behavior.
 
 @end
 static NSArray *waterArray;
@@ -32,14 +34,42 @@ static NSInteger damCount;
     
     self.tableView = tableView; // 把local variable設給這個物件的property，是方便存取。
 
-    // Get remote JSON data.
+    // Initialize the refresh control.
+    UIRefreshControl *refCtl = [[UIRefreshControl alloc] init];
+    refCtl.backgroundColor = [UIColor purpleColor];
+    refCtl.tintColor = [UIColor whiteColor];
+//    [refCtl addTarget:self
+//               action:@selector(connectionDidFinishLoading)
+//     forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = refCtl;
+    
+    // Set remote URL detail
     responseData = [[NSMutableData alloc]init];
     NSURL *url = [[NSURL alloc] initWithString:@"http://128.199.223.114:10080/today"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setValue:@"application/json" forHTTPHeaderField:@"accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+
+    // MBProgressHUD
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+//        // Do something...
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [MBProgressHUD hideHUDForView:self.view animated:YES];
+//        });
+//    });
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    [self doSomethingInBackgroundWithProgressCallback:^(float progress) {
+//        hud.progress = progress;
+//    } completionCallback:^{
+//        [hud hide:YES];
+//    }];
+    
+    // Get remote JSON data.
     (void)[NSURLConnection connectionWithRequest:request delegate:self];
 }
+
 
 
 // 當程式執行到這裡，self.view拿到的大小才正確
@@ -134,6 +164,7 @@ static NSInteger damCount;
     
     damCount = [waterArray count];
     
+    [MBProgressHUD hideHUDForView:self.view animated:NO];
     [[self tableView] reloadData];
 }
 

@@ -35,7 +35,7 @@
     [button setTitle:@"Get Dam Status" forState:UIControlStateNormal];
     [self.view addSubview:button];
     self.startBtn = button;
-    
+        
     // Target-Action : 類似event的東西，在這裡就是處理點擊按鈕的部分
     
     [self.startBtn addTarget:self action:@selector(helloAction:) forControlEvents:UIControlEventTouchUpInside];
